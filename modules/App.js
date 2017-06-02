@@ -11,7 +11,7 @@ export default React.createClass({
           <NavLink to="/about">About</NavLink>
           <NavLink to="/jobs">Jobs</NavLink>
           <NavLink to="/soccer">Soccer</NavLink>
-          <NavLink to="/disc">Disc</NavLink>
+          <NavLink to="/stock">Stock</NavLink>
           <NavLink to="/design">Design</NavLink>
           <NavLink to="/art">Art</NavLink>
           <NavLink to="/black">Black</NavLink>

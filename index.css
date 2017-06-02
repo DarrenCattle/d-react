@@ -9,6 +9,16 @@ a {
 	color: black;
 }
 
+.button {
+	background-color: #AAA;
+}
+
+.a-button {
+    color: #F82672;
+    line-height: 2;
+    display: block;
+}
+
 .active {
 	color: black;
 	background-color: white;
@@ -38,4 +48,17 @@ a {
 
 .container {
 	text-align: center;
+}
+
+table.center {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.leaguebox {
+	text-align: center;
+	align: center;
+	margin-left: auto;
+	margin-right: auto;
 }
