@@ -1,5 +1,4 @@
 import React from 'react'
-import NavLink from './NavLink'
 
 var Jobs = React.createClass({
 	render: function() {

@@ -1,75 +1,78 @@
 import React from 'react'
-import NavLink from './NavLink'
 
 var Stock = React.createClass({
 	getInitialState: function() {
 		return {
-			stocks: null
+			stocks: null,
+			stockdata: null
 		};
 	},
 	componentDidMount() {
-		//this.sendRequest("stocks");
-		//this.sendRequest('http://api.football-data.org/v1/competitions/426/leagueTable');
-		//this.sendRequest("http://localhost:9000/stocks");
-		this.sendRequest("http://listophrenic.herokuapp.com/stocks");
+		this.sendRequest("http://listophrenic.herokuapp.com/stocks", this.setStocks);
 	},
-	sendRequest: function(url) {
+	sendRequest: function(url, to_process) {
 		var url = url.trim();
-		var to_process = this.setItems;
 		var xmlhttp = new XMLHttpRequest();
 		var data;
 		xmlhttp.onreadystatechange = function() {
 		  if (xmlhttp.readyState == XMLHttpRequest.DONE) {
 		      data = xmlhttp.response;
 		      if(data!=null) {
-				to_process(data.trim());
+				to_process(data);
 		      }
 		  }
 		};
 		xmlhttp.open("GET", url);
 		xmlhttp.send();
 	},
-	/*getStock: function(stock) {
-	    var url = "https://api.football-data.org/v1/competitions/426/leagueTable";
-	    //console.log(url, this.headers);
-	    return fetch(url, this.headers)
-	    .then(function(response) {
-	    	return response.json();
-	    })
-	    .then(function(json) {
-	    	console.log(json);
-	    	return json;
-	    })
-	    .catch(function(error) {
-	      console.log('error', error);
-	    });
-	},*/
-	setItems: function(items) {
-		var list = items.replace('[','').replace(']','').split(',');
+	setStocks: function(response) {
+		//send first request to get stock list
+		var list = response.replace('[','').replace(']','').split(',');
 		this.setState({stocks: list});
+		
+		//send second request to google finance
+		var googlefin = "http://finance.google.com/finance/info?client=ig&q=" 
+			+ list.toString().replace(/\s/g,'');
+		this.sendRequest(googlefin, this.setData);
 	},
-	generator: function() {
-		var stocks = this.state.stocks;
-		if(stocks===null){
-			return stocks;
+	setData: function(response) {
+		var data = JSON.parse(response.substring(4,response.length));
+		this.setState({stockdata: data});
+	},
+	generateTicker: function() {
+		var data = this.state.stockdata;
+		if(data===null){
+			return data;
 		}
 		var lines = [];
 		var count = 0;
-		stocks.forEach(function(name) {
+		for(var a = 0; a < data.length; a++) {
 			lines.push(
-				<div key={'stock_'+count}>
-					{name}
-				</div>
-				);
-			count++;
-		});
+				<tr key={data[a].t}>
+					<td>{data[a].t}</td>
+					<td>{data[a].l}</td>
+					<td>{data[a].c}</td>
+					<td>{data[a].cp}</td>
+				</tr>
+			);
+		}
 		return lines;
 	},
 	render: function() {
 		return (
 			<div className="container">
 				<h1>Stock Web App</h1>
-					{this.generator()}
+				<table className="center">
+					<thead><tr>
+						<th>Stock</th>
+						<th>Price</th>
+						<th>Change $</th>
+						<th>Change %</th>
+					</tr></thead>
+					<tbody id="standing">
+						{this.generateTicker()}
+					</tbody>
+				</table>
 			</div>
 		)
 	}

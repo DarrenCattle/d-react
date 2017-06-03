@@ -1,5 +1,4 @@
 import React from 'react'
-import NavLink from './NavLink'
 
 var Soccer = React.createClass({
 	getInitialState: function() {
@@ -9,12 +8,10 @@ var Soccer = React.createClass({
 	},
 
 	componentDidMount() {
-	  //console.log('component mount');
 	  this.sendRequest("426");
 	},
 
 	handleChange: function(e) {
-		//console.log(e.target.value);
 		this.setState({league:e.target.value});
 		this.sendRequest(e.target.value);
 	},
@@ -27,7 +24,6 @@ var Soccer = React.createClass({
 		xmlhttp.onreadystatechange = function() {
 		  if (xmlhttp.readyState == XMLHttpRequest.DONE) {
 		      data = xmlhttp.response;
-		      console.log(data.toString());
 		      to_process(JSON.parse(data));
 		  }
 		};

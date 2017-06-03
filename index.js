@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 import App from './modules/App'
 import About from './modules/About'
+import List from './modules/List'
 import Jobs from './modules/Jobs'
 import Repos from './modules/Repos'
 import Repo from './modules/Repo'
@@ -18,10 +19,10 @@ render((
       <Route path="/about" component={About}/>
       <Route path="/jobs" component={Jobs}/>
       <Route path="/soccer" component={Soccer}/>
-      <Route path="/art" component={About}/>
-      <Route path="/black" component={Black}/>
+      <Route path="/list" component={List}/>
       <Route path="/stock" component={Stock}/>
       <Route path="/design" component={Repos}/>
+      <Route path="/black" component={Black}/>
     </Route>
   </Router>
 ), document.getElementById('app'))
